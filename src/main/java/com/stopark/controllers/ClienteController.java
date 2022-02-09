@@ -19,11 +19,16 @@ public class ClienteController {
     @Autowired
     ClienteService clienteService;
 
+    @GetMapping("listar")
+    public Iterable<Cliente> listarTodosOsClientes() {
+    return clienteService.listarTodosOsClientes();}
+
+
     @PostMapping(value = "/novo")
     @ResponseBody
-    public ResponseEntity<Cliente> salvarCliente(@Valid @RequestBody Cliente cliente) {
-        clienteService.adicionarCliente(cliente);
-    return ResponseEntity.ok(cliente);
+    public ResponseEntity<ClienteRequest> salvarCliente(@Valid @RequestBody ClienteRequest clienteRequest) throws Exception {
+        clienteService.adicionarCliente(clienteRequest);
+    return ResponseEntity.ok(clienteRequest);
 
     }
 
