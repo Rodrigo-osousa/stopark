@@ -44,7 +44,7 @@ public class ClienteService {
         clienteRequest.setEndereco(endereco);
         return clienteRequest;
     }
- // testa
+
     public Iterable<Cliente> listarTodosOsClientes() {
         return clienteRepository.findAll();
     }
