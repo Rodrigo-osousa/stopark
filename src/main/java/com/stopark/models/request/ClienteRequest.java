@@ -4,17 +4,27 @@ import com.stopark.models.entities.Endereco;
 
 public class ClienteRequest {
 
-    private String cpf;
+    private int id;
+    private String numeroDoDocumento;
     private String nome;
     private Endereco endereco;
 
     public ClienteRequest() {
     }
 
-    public ClienteRequest(String cpf, String nome, Endereco endereco) {
-        this.cpf = cpf;
+    public ClienteRequest(int id, String numeroDoDocumento, String nome, Endereco endereco) {
+        this.id = id;
+        this.numeroDoDocumento = numeroDoDocumento;
         this.nome = nome;
         this.endereco = endereco;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Endereco getEndereco() {
@@ -25,12 +35,12 @@ public class ClienteRequest {
         this.endereco = endereco;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getNumeroDoDocumento() {
+        return numeroDoDocumento;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setNumeroDoDocumento(String numeroDoDocumento) {
+        this.numeroDoDocumento = numeroDoDocumento;
     }
 
     public String getNome() {
@@ -41,13 +51,13 @@ public class ClienteRequest {
         this.nome = nome;
     }
 
-
-
     @Override
     public String toString() {
         return "ClienteRequest{" +
-                "cpf='" + cpf + '\'' +
+                "id=" + id +
+                ", numeroDoDocumento='" + numeroDoDocumento + '\'' +
                 ", nome='" + nome + '\'' +
+                ", endereco=" + endereco +
                 '}';
     }
 }

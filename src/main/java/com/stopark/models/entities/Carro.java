@@ -9,8 +9,9 @@ public class Carro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    private String placa;
     private String marca;
-    private String modelo;
+    private String modeloDoCarro;
     private Date fabricacao;
     @OneToOne
     private Cliente cliente;
@@ -18,11 +19,13 @@ public class Carro {
     public Carro() {
     }
 
-    public Carro(int id, String marca, String modelo, Date fabricacao) {
+    public Carro(int id, String placa, String marca, String modeloDoCarro, Date fabricacao, Cliente cliente) {
         this.id = id;
+        this.placa = placa;
         this.marca = marca;
-        this.modelo = modelo;
+        this.modeloDoCarro = modeloDoCarro;
         this.fabricacao = fabricacao;
+        this.cliente = cliente;
     }
 
     public int getId() {
@@ -33,6 +36,22 @@ public class Carro {
         this.id = id;
     }
 
+    public String getPlaca() {
+        return placa;
+    }
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
     public String getMarca() {
         return marca;
     }
@@ -41,12 +60,12 @@ public class Carro {
         this.marca = marca;
     }
 
-    public String getModelo() {
-        return modelo;
+    public String getModeloDoCarro() {
+        return modeloDoCarro;
     }
 
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
+    public void setModeloDoCarro(String modeloDoCarro) {
+        this.modeloDoCarro = modeloDoCarro;
     }
 
     public Date getFabricacao() {
@@ -61,9 +80,11 @@ public class Carro {
     public String toString() {
         return "Carro{" +
                 "id=" + id +
+                ", placa='" + placa + '\'' +
                 ", marca='" + marca + '\'' +
-                ", modelo='" + modelo + '\'' +
+                ", modeloDoCarro='" + modeloDoCarro + '\'' +
                 ", fabricacao=" + fabricacao +
+                ", cliente=" + cliente +
                 '}';
     }
 }

@@ -1,13 +1,27 @@
 package com.stopark.services;
 
 import com.stopark.models.entities.Endereco;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
+import org.springframework.stereotype.Service;
 
-@FeignClient(name = "viacep", url = "https://viacep.com.br/ws")
-public interface ViaCepService {
+import java.util.logging.Logger;
 
-    @GetMapping("/{cep}/json/")
-    Endereco consultarCep(@PathVariable("cep") String cep);
+@Service
+public class ViaCepService {
+
+    @Autowired
+    ViaCep viaCep;
+
+    private static Logger logger = Logger.getLogger(ViaCepService.class.getName());
+
+
+    @Retryable(value = RuntimeException.class,
+            maxAttempts = 3, backoff = @Backoff(delay = 3000))
+    public Endereco buscarEndereco(String cep){
+        logger.info("chamando API do ViaCEP");
+        return viaCep.consultarCep(cep);
+    }
+
 }

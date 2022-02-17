@@ -6,7 +6,9 @@ import javax.persistence.*;
 public class Cliente {
 
     @Id
-    private String cpf;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String numeroDoDocumento;
     private String nome;
 
     @OneToOne
@@ -18,18 +20,28 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(String cpf, String nome, Carro carro) {
-        this.cpf = cpf;
+    public Cliente(int id, String numeroDoDocumento, String nome, Carro carro, Endereco endereco) {
+        this.id = id;
+        this.numeroDoDocumento = numeroDoDocumento;
         this.nome = nome;
         this.carro = carro;
+        this.endereco = endereco;
     }
 
-    public String getCpf() {
-        return cpf;
+    public int getId() {
+        return id;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNumeroDoDocumento() {
+        return numeroDoDocumento;
+    }
+
+    public void setNumeroDoDocumento(String numeroDoDocumento) {
+        this.numeroDoDocumento = numeroDoDocumento;
     }
 
     public String getNome() {
@@ -48,5 +60,14 @@ public class Cliente {
         this.endereco = endereco;
     }
 
-
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "id=" + id +
+                ", numeroDoDocumento='" + numeroDoDocumento + '\'' +
+                ", nome='" + nome + '\'' +
+                ", carro=" + carro +
+                ", endereco=" + endereco +
+                '}';
+    }
 }
