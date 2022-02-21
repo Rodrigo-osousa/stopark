@@ -13,7 +13,8 @@ public class Carro {
     private String marca;
     private String modeloDoCarro;
     private Date fabricacao;
-    @OneToOne
+
+    @ManyToOne
     private Cliente cliente;
 
     public Carro() {

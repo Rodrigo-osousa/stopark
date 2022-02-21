@@ -30,5 +30,8 @@ public class CarroController {
     public Optional<Carro> buscarCarroPorPlaca(String placa) {
         return carroService.buscarCarroPelaPlaca(placa);
     }
+
+    @DeleteMapping(path = "/{placa}")
+    public void deletarCarro(@PathVariable String placa) {carroService.deletarCarro(placa);}
     
 }

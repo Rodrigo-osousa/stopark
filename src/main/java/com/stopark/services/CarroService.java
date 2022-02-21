@@ -8,6 +8,8 @@ import com.stopark.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -31,6 +33,11 @@ public class CarroService {
 
     public Optional<Carro> buscarCarroPelaPlaca(String placa) {
         return carroRepository.findByPlaca(placa);
+    }
+
+    public void deletarCarro(String placa) {
+        Optional<Carro> buscarIdDoCarro = carroRepository.findByPlaca(placa);
+        carroRepository.deleteById(buscarIdDoCarro.get().getId());
     }
 
     private CarroRequest novoCarro(CarroRequest carroRequest) throws Exception {

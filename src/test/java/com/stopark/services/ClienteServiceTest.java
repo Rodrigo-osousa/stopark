@@ -49,6 +49,16 @@ class ClienteServiceTest {
         Optional<Cliente> possoAdicionarCliente = clienteRepository.findByNumeroDoDocumento("123456");
         Assertions.assertEquals(novoCliente.getNome(), possoAdicionarCliente.get().getNome());
     }
+    @Test
+    void adicionarClienteExistenteException() throws Exception {
+        ClienteRequest novoCliente = new ClienteRequest(1,"999999999","Nome Teste",viaCepService.buscarEndereco("04840110"));
+        novoCliente.setEndereco(viaCepService.buscarEndereco("04840110"));
+
+        Assertions.assertThrows(Exception.class, () -> {
+            clienteService.adicionarCliente(novoCliente);
+        });
+
+    }
 
     @Test
     void listarTodosOsClientes() {
