@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-
 class CarroServiceTest {
 
     @Autowired
@@ -45,35 +44,42 @@ class CarroServiceTest {
     void setUp() throws Exception {
         ClienteRequest novoCliente = new ClienteRequest(5, "333333333", "Nome Teste", viaCepService.buscarEndereco("04840110"));
         clienteService.adicionarCliente(novoCliente);
-        ClienteRequest novoCliente1 = new ClienteRequest(6, "222222222", "Nome Teste", viaCepService.buscarEndereco("04840110"));
-        clienteService.adicionarCliente(novoCliente1);
+
         CarroRequest novoCarroStp = new CarroRequest();
         novoCarroStp.setPlaca("Test1");
         novoCarroStp.setModeloDoCarro("Modelo Teste");
         novoCarroStp.setMarca("marca1");
         novoCarroStp.setNumeroDoDocumento("333333333");
-
         SimpleDateFormat formatador = new SimpleDateFormat("yyyy");
-        Date data2 = new Date(03/05/2021);
-        novoCarroStp.setFabricacao(data2);
-
+        Date data1 = new Date(03 / 05 / 2021);
+        novoCarroStp.setFabricacao(data1);
         carroService.adicionarCarro(novoCarroStp);
 
+        CarroRequest novoCarroStp1 = new CarroRequest();
+        novoCarroStp1.setPlaca("Test2");
+        novoCarroStp1.setModeloDoCarro("Modelo Teste");
+        novoCarroStp1.setMarca("marca1");
+        novoCarroStp1.setNumeroDoDocumento("333333333");
+        SimpleDateFormat formatador2 = new SimpleDateFormat("yyyy");
+        Date data3 = new Date(03 / 05 / 2021);
+        novoCarroStp1.setFabricacao(data3);
+        carroService.adicionarCarro(novoCarroStp1);
+
     }
+
     @Test
     void adicionarCarro() throws Exception {
         CarroRequest novoCarro = new CarroRequest();
-        novoCarro.setPlaca("Test2");
-        novoCarro.setModeloDoCarro("modelo");
+        novoCarro.setPlaca("Test3");
+        novoCarro.setModeloDoCarro("Modelo Teste");
         novoCarro.setMarca("marca");
-        novoCarro.setNumeroDoDocumento("222222222");
-
-            SimpleDateFormat formatador = new SimpleDateFormat("yyyy");
-            Date data2 = new Date(03/05/2021);
+        novoCarro.setNumeroDoDocumento("333333333");
+        SimpleDateFormat formatador = new SimpleDateFormat("yyyy");
+        Date data2 = new Date(03 / 05 / 2021);
         novoCarro.setFabricacao(data2);
-
         carroService.adicionarCarro(novoCarro);
-        Optional<Carro> adicionouNovoCarro = carroRepository.findByPlaca("Test2");
+
+        Optional<Carro> adicionouNovoCarro = carroRepository.findByPlaca("Test3");
         Assertions.assertEquals(novoCarro.getPlaca(), adicionouNovoCarro.get().getPlaca());
 
     }
@@ -87,10 +93,14 @@ class CarroServiceTest {
     @Test
     void buscarCarroPelaPlaca() {
         Optional<Carro> buscarCarroPelaPlaca = carroRepository.findByPlaca("Test1");
-        Assertions.assertTrue(Objects.equals(buscarCarroPelaPlaca.get().getModeloDoCarro(), "Modelo Teste"));
+        assertEquals("Modelo Teste", buscarCarroPelaPlaca.get().getModeloDoCarro());
     }
 
     @Test
     void deletarCarro() {
+        carroService.deletarCarro("Test2");
+        Optional<Carro> buscarCarroPelaPlaca = carroRepository.findByPlaca("Test2");
+        Assertions.assertTrue(buscarCarroPelaPlaca.isEmpty());
+
     }
 }
