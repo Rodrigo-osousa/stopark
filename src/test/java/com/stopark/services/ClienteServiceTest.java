@@ -3,19 +3,21 @@ package com.stopark.services;
 import com.stopark.models.entities.Cliente;
 import com.stopark.models.request.ClienteRequest;
 import com.stopark.repository.ClienteRepository;
-import org.junit.Ignore;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 import java.util.Optional;
 
 
-@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -29,6 +31,9 @@ class ClienteServiceTest {
 
     @Autowired
     ViaCepService viaCepService;
+
+
+
 
     @BeforeAll
     void setUp() throws Exception {
@@ -44,10 +49,12 @@ class ClienteServiceTest {
         novoCliente.setNome("Teste de Criação de novo Cliente");
         novoCliente.setNumeroDoDocumento("123456");
         novoCliente.setEndereco(viaCepService.buscarEndereco("04840110"));
-        clienteService.adicionarCliente(novoCliente);
+
+        ClienteRequest armazenarCliente = clienteService.adicionarCliente(novoCliente);
 
         Optional<Cliente> possoAdicionarCliente = clienteRepository.findByNumeroDoDocumento("123456");
         Assertions.assertEquals(novoCliente.getNome(), possoAdicionarCliente.get().getNome());
+        Assertions.assertEquals(armazenarCliente.getEndereco().getBairro(), possoAdicionarCliente.get().getEndereco().getBairro());
     }
     @Test
     void adicionarClienteExistenteException() throws Exception {

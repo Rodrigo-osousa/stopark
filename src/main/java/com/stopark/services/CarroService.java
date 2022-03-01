@@ -43,15 +43,14 @@ public class CarroService {
         if (buscarCliente.isEmpty()) {
             throw new Exception("Cliente não existe");
         }
-
         Carro carro = new Carro();
         carro.setPlaca(carroRequest.getPlaca());
         carro.setFabricacao(carroRequest.getFabricacao());
         carro.setMarca(carroRequest.getMarca());
         carro.setModeloDoCarro(carroRequest.getModeloDoCarro());
         carro.setCliente(buscarCliente.get());
-
         carroRepository.save(carro);
+
         return carroRequest;
     }
 
