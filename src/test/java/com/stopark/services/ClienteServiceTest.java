@@ -30,16 +30,16 @@ class ClienteServiceTest {
     ClienteService clienteService;
 
     @Autowired
-    ViaCepService viaCepService;
+    ViaCepRetryService viaCepRetryService;
 
 
 
 
     @BeforeAll
     void setUp() throws Exception {
-        ClienteRequest novoCliente = new ClienteRequest(1,"999999999","Nome Teste",viaCepService.buscarEndereco("04840110"));
+        ClienteRequest novoCliente = new ClienteRequest("999999999","Nome Teste","04840110","teste");
         clienteService.adicionarCliente(novoCliente);
-        ClienteRequest novoCliente2 = new ClienteRequest(2,"888888888","Nome Teste2",viaCepService.buscarEndereco("04840110"));
+        ClienteRequest novoCliente2 = new ClienteRequest("888888888","Nome Teste2","04840110","teste");
         clienteService.adicionarCliente(novoCliente2);
     }
 
@@ -48,9 +48,9 @@ class ClienteServiceTest {
         ClienteRequest novoCliente = new ClienteRequest();
         novoCliente.setNome("Teste de Criação de novo Cliente");
         novoCliente.setNumeroDoDocumento("123456");
-        novoCliente.setEndereco(viaCepService.buscarEndereco("04840110"));
+        novoCliente.setCep("04840110");
 
-        ClienteRequest armazenarCliente = clienteService.adicionarCliente(novoCliente);
+        Cliente armazenarCliente = clienteService.adicionarCliente(novoCliente);
 
         Optional<Cliente> possoAdicionarCliente = clienteRepository.findByNumeroDoDocumento("123456");
         Assertions.assertEquals(novoCliente.getNome(), possoAdicionarCliente.get().getNome());
@@ -58,8 +58,8 @@ class ClienteServiceTest {
     }
     @Test
     void adicionarClienteExistenteException() throws Exception {
-        ClienteRequest novoCliente = new ClienteRequest(1,"999999999","Nome Teste",viaCepService.buscarEndereco("04840110"));
-        novoCliente.setEndereco(viaCepService.buscarEndereco("04840110"));
+        ClienteRequest novoCliente = new ClienteRequest("999999999","Nome Teste","04840110","teste");
+        novoCliente.setCep("04840110");
 
         Assertions.assertThrows(Exception.class, () -> {
             clienteService.adicionarCliente(novoCliente);
@@ -82,10 +82,9 @@ class ClienteServiceTest {
     @Test
     void atualizarCliente() throws Exception {
         ClienteRequest atualizarCliente = new ClienteRequest();
-        atualizarCliente.setId(1);
         atualizarCliente.setNome("Nome Alterado");
         atualizarCliente.setNumeroDoDocumento("999999999");
-        atualizarCliente.setEndereco(viaCepService.buscarEndereco("04840110"));
+        atualizarCliente.setCep("04840110");
 
         clienteService.atualizarCliente(atualizarCliente);
 
@@ -96,7 +95,7 @@ class ClienteServiceTest {
 
     @Test
     void deletarCliente() {
-    clienteService.deletarCliente(2);
+    clienteService.deletarCliente("888888888");
     Optional<Cliente> possoDeletarCliente = clienteRepository.findByNumeroDoDocumento("888888888");
     Assertions.assertTrue(possoDeletarCliente.isEmpty());
     }

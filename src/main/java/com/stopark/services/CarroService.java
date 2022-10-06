@@ -33,9 +33,9 @@ public class CarroService {
         return carroRepository.findByPlaca(placa);
     }
 
-    public void deletarCarro(String placa) {
-        Optional<Carro> buscarIdDoCarro = carroRepository.findByPlaca(placa);
-        carroRepository.deleteById(buscarIdDoCarro.get().getId());
+    public void deletarCarro(String placa) throws Exception {
+        Carro buscarIdDoCarro = carroRepository.findByPlaca(placa).orElseThrow(() -> new Exception("Veículo não encontrado!"));
+        carroRepository.deleteById(buscarIdDoCarro.getId());
     }
 
     private CarroRequest novoCarro(CarroRequest carroRequest) throws Exception {

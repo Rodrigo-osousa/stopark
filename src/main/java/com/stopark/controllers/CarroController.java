@@ -32,6 +32,6 @@ public class CarroController {
     }
 
     @DeleteMapping(path = "/{placa}")
-    public void deletarCarro(@PathVariable String placa) {carroService.deletarCarro(placa);}
+    public void deletarCarro(@PathVariable String placa) throws Exception {carroService.deletarCarro(placa);}
     
 }

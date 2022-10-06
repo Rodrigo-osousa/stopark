@@ -1,9 +1,11 @@
 package com.stopark.models.entities;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import javax.persistence.*;
 
 @Entity
-public class Cliente {
+public class Cliente extends RepresentationModel<Cliente> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

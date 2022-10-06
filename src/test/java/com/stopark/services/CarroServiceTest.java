@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,11 +37,11 @@ class CarroServiceTest {
     ClienteService clienteService;
 
     @Autowired
-    ViaCepService viaCepService;
+    ViaCepRetryService viaCepRetryService;
 
     @BeforeAll
     void setUp() throws Exception {
-        ClienteRequest novoCliente = new ClienteRequest(5, "333333333", "Nome Teste", viaCepService.buscarEndereco("04840110"));
+        ClienteRequest novoCliente = new ClienteRequest("333333333", "Nome Teste", "04840110","teste");
         clienteService.adicionarCliente(novoCliente);
 
         CarroRequest novoCarroStp = new CarroRequest();
@@ -97,7 +96,7 @@ class CarroServiceTest {
     }
 
     @Test
-    void deletarCarro() {
+    void deletarCarro() throws Exception {
         carroService.deletarCarro("Test2");
         Optional<Carro> buscarCarroPelaPlaca = carroRepository.findByPlaca("Test2");
         Assertions.assertTrue(buscarCarroPelaPlaca.isEmpty());

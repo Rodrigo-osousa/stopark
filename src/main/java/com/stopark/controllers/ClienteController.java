@@ -11,8 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
+//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/cliente")
 
@@ -23,11 +25,11 @@ public class ClienteController {
     ClienteService clienteService;
 
     @GetMapping("/listar")
-    public Iterable<Cliente> listarTodosOsClientes() {
+    public List<Cliente> listarTodosOsClientes() throws Exception {
     return clienteService.listarTodosOsClientes();}
 
-    @GetMapping("/burcarPorDocumento")
-    public Optional<Cliente> buscarPeloDocumento(String numeroDoDocumento) {
+    @GetMapping(path = "/burcarPorDocumento/{numeroDoDocumento}")
+    public Cliente buscarPeloDocumento(@PathVariable String numeroDoDocumento) throws Exception {
         return clienteService.buscarClientePorNumeroDoDocumento(numeroDoDocumento);
     }
 
@@ -40,15 +42,13 @@ public class ClienteController {
 
     @PostMapping(value = "/novo")
     @ResponseBody
-    public ResponseEntity<ClienteRequest> salvarCliente(@Valid @RequestBody ClienteRequest clienteRequest) throws Exception {
-        clienteService.adicionarCliente(clienteRequest);
-    return ResponseEntity.ok(clienteRequest);
-
+    public Cliente salvarCliente(@Valid @RequestBody ClienteRequest clienteRequest) throws Exception {
+        return clienteService.adicionarCliente(clienteRequest);
     }
 
-    @DeleteMapping(path = "/{id}")
-    public void deletarCliente(@PathVariable int id) {
-        clienteService.deletarCliente(id);
+    @DeleteMapping(path = "/{numeroDoDocumento}")
+    public void deletarCliente(@PathVariable String numeroDoDocumento) {
+        clienteService.deletarCliente(numeroDoDocumento);
     }
 
 
